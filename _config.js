@@ -77,6 +77,6 @@ Optional Variables:
 , graphiteHost: "GRAPHITE"
 , mgmt_port: 8126
 , port: 8125
-, backends: [ "./backends/graphite" ]
+, backends: [ "./backends/graphite_ts" ]
 , flushInterval: 5000
 }
