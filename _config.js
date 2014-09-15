@@ -69,6 +69,7 @@ Optional Variables:
 		legacyNamespace: false,
 		globalPrefix: "PREFIX"
 	}
+, aggregation: 'avg'
 ,	deleteGauges: true
 ,	deleteTimers: true
 ,	deleteSets: true
