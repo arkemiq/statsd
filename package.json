@@ -16,6 +16,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "forever": "0.11.x",
     "nodeunit": "0.7.x",
     "underscore": "1.4.x",
     "lodash": "2.4.x",
