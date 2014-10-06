@@ -51,6 +51,8 @@ function loadBackend(config, name) {
 
 function aggregate_metrics(metric, now) {
   ts_metric = {};
+  flushIntervalSecond = Number(flushInterval / 1000);
+  console.log("metric", metric);
   for (var key in metric) {
     ts_metric[key] === undefined ? ts_metric[key] = {} : null;
     timeseries = metric[key];
@@ -58,16 +60,17 @@ function aggregate_metrics(metric, now) {
       last_timestamps[key] = 0;
     }
     for (var i in timeseries) {
-      basetime = (now - timeseries[i][1]) % flushInterval + timeseries[i][1];
+      basetime = (now - timeseries[i][1]) % flushIntervalSecond + timeseries[i][1];
       // check if metric stalled, move to next flush time
       if (basetime < last_timestamps[key]) {
-        basetime = last_timestamps[key] + flushInterval;
+        basetime = last_timestamps[key] + flushIntervalSecond;
       }
       ts_metric[key][basetime.toString()] === undefined ? ts_metric[key][basetime.toString()] = [] : null;
       ts_metric[key][basetime.toString()].push(timeseries[i][0]);
     }
     last_timestamps[key] = _.chain(_.keys(ts_metric[key])).max().value();
   }
+  console.log("ts_metric", ts_metric);
   return ts_metric;
 }
 

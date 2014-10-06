@@ -107,16 +107,16 @@ var flush_stats = function graphite_flush(ts, metrics) {
       var value = counter_timeseries[time];
       var valuePerSecond = rate_timeserise[time]; // pre-calculated "per second" rate
 
-      ts_suffix = ' ' + time + "\n";
+      local_ts_suffix = ' ' + time + "\n";
       if (legacyNamespace === true) {
-        statString += namespace.join(".")   + globalSuffix + valuePerSecond + ts_suffix;
+        statString += namespace.join(".")   + globalSuffix + valuePerSecond + local_ts_suffix;
         if (flush_counts) {
-          statString += 'stats_counts.' + key + globalSuffix + value + ts_suffix;
+          statString += 'stats_counts.' + key + globalSuffix + value + local_ts_suffix;
         }
       } else {
-        statString += namespace.concat('rate').join(".")  + globalSuffix + valuePerSecond + ts_suffix;
+        statString += namespace.concat('rate').join(".")  + globalSuffix + valuePerSecond + local_ts_suffix;
         if (flush_counts) {
-          statString += namespace.concat('count').join(".") + globalSuffix + value + ts_suffix;
+          statString += namespace.concat('count').join(".") + globalSuffix + value + local_ts_suffix;
         }
       }
 
@@ -130,17 +130,17 @@ var flush_stats = function graphite_flush(ts, metrics) {
     var timeseries = timer_data[key];
 
     for (var time in timeseries) {
-      ts_suffix = ' ' + time + "\n";
+      local_ts_suffix = ' ' + time + "\n";
       for (timer_data_key in timeseries[time]) {
         if (typeof(timeseries[time][timer_data_key]) === 'number') {
-          statString += the_key + '.' + timer_data_key + globalSuffix + timeseries[time][timer_data_key] + ts_suffix;
+          statString += the_key + '.' + timer_data_key + globalSuffix + timeseries[time][timer_data_key] + local_ts_suffix;
         } else {
           for (var timer_data_sub_key in timeseries[time][timer_data_key]) {
             if (debug) {
               l.log(timeseries[time][timer_data_key][timer_data_sub_key].toString());
             }
             statString += the_key + '.' + timer_data_key + '.' + timer_data_sub_key + globalSuffix +
-                          timeseries[time][timer_data_key][timer_data_sub_key] + ts_suffix;
+                          timeseries[time][timer_data_key][timer_data_sub_key] + local_ts_suffix;
           }
         }
       }
@@ -152,8 +152,8 @@ var flush_stats = function graphite_flush(ts, metrics) {
     var timeseries = gauges[key];
     var namespace = gaugesNamespace.concat(key);
     for (var time in timeseries) {
-      ts_suffix = ' ' + time + "\n";
-      statString += namespace.join(".") + globalSuffix + timeseries[time] + ts_suffix;
+      local_ts_suffix = ' ' + time + "\n";
+      statString += namespace.join(".") + globalSuffix + timeseries[time] + local_ts_suffix;
       numStats += 1;
     }
   }
