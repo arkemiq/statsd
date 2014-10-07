@@ -67,7 +67,7 @@ function aggregate_metrics(metric, now) {
       ts_metric[key][basetime.toString()] === undefined ? ts_metric[key][basetime.toString()] = [] : null;
       ts_metric[key][basetime.toString()].push(timeseries[i][0]);
     }
-    last_timestamps[key] = _.chain(_.keys(ts_metric[key])).max().value();
+    last_timestamps[key] = Number(_.chain(_.keys(ts_metric[key])).max().value());
   }
   return ts_metric;
 }
