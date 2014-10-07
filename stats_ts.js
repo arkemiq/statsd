@@ -52,7 +52,6 @@ function loadBackend(config, name) {
 function aggregate_metrics(metric, now) {
   ts_metric = {};
   flushIntervalSecond = Number(flushInterval / 1000);
-  console.log("metric", metric);
   for (var key in metric) {
     ts_metric[key] === undefined ? ts_metric[key] = {} : null;
     timeseries = metric[key];
@@ -70,7 +69,6 @@ function aggregate_metrics(metric, now) {
     }
     last_timestamps[key] = _.chain(_.keys(ts_metric[key])).max().value();
   }
-  console.log("ts_metric", ts_metric);
   return ts_metric;
 }
 
