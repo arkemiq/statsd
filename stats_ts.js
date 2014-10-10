@@ -55,19 +55,11 @@ function aggregate_metrics(metric, now) {
   for (var key in metric) {
     ts_metric[key] === undefined ? ts_metric[key] = {} : null;
     timeseries = metric[key];
-    if (! last_timestamps[key]) {
-      last_timestamps[key] = 0;
-    }
     for (var i in timeseries) {
       basetime = (now - timeseries[i][1]) % flushIntervalSecond + timeseries[i][1];
-      // check if metric stalled, move to next flush time
-      if (basetime < last_timestamps[key]) {
-        basetime = last_timestamps[key] + flushIntervalSecond;
-      }
       ts_metric[key][basetime.toString()] === undefined ? ts_metric[key][basetime.toString()] = [] : null;
       ts_metric[key][basetime.toString()].push(timeseries[i][0]);
     }
-    last_timestamps[key] = Number(_.chain(_.keys(ts_metric[key])).max().value());
   }
   return ts_metric;
 }
